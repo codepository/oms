@@ -1,0 +1,30 @@
+server: 
+  port: 8005
+spring:
+  application:
+    name: oms-provider-payment 
+  datasource: 
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://129.0.99.68:3306/fznews_payment?useSSL=false&useUnicode=true&characterEncoding=utf8
+    username: ltroot
+    password: 9k^tAxi^HT8%h7yB 
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid: 
+      filter:
+        stat:
+          enabled: false
+  jpa: 
+    show-sql: false
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate:
+      ddl-auto: update
+   
+mybatis:
+  type-aliases-package: com.lt.cloud.pojo
+  mapper-locations:
+    - classpath:mapper/*.xml
+logging:
+  level:
+    com.lt.cloud.mapper: DEBUG
+PERMISSION_URL: localhost:8000
+

@@ -1,0 +1,36 @@
+server:
+  port: 8001
+spring:
+  application:
+    name: oms-provider-customer
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://129.0.99.68:3306/fznews_customer?useSSL=false&useUnicode=true&characterEncoding=utf8
+    username: root
+    password: 1qaz@WSX 
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      filter:
+        stat:
+          enabled: false
+mybatis:
+  type-aliases-package:  com.lt.cloud.pojo
+  mapper-locations:
+  - classpath:mapper/*.xml
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${EUREKA_SERVER_ADDRESS}:8761/eureka/
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 5      # 心跳时间，即服务续约间隔时间（缺省为30s）
+    lease-expiration-duration-in-seconds: 20  # 发呆时间，即服务续约到期时间（缺省为90s）
+management: 
+  endpoints: 
+    web:
+      exposure:
+        include: "*"
+feign:
+  hystrix:
+    enabled: true
+ 

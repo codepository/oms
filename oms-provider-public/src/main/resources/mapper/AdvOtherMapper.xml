@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+  <!-- 指向AdvitemMapper.java文件 -->
+  
+<mapper namespace="com.lt.cloud.mapper.AdvOtherMapper">
+     <select id="selectAll" parameterType="advotherReceiver" resultType="otherAdv">
+		select * from ${table} 
+		 
+		<where>
+			<if test="E_Grid!=null and E_Grid!=''">
+				<bind name="pattern" value="'%'+_parameter.E_Grid+'%'"/>
+				E_Grid like #{pattern}
+			</if>
+			
+			<if test="E_AdType!=null and E_AdType!=''">
+				<bind name="pattern" value="'%'+_parameter.E_AdType+'%'"/>
+				and E_AdType like #{pattern}
+			</if>
+			<if test="E_Name!=null and E_Name!=''">
+				<bind name="pattern" value="'%'+_parameter.E_Name+'%'"/>
+				and E_Name like #{pattern}
+			</if>
+			<if test="E_PID!=null and E_PID!=''">and E_PID=#{E_PID}</if>
+			<if test="E_AdType_ID!=null and E_AdType_ID!=''">and E_AdType_ID=#{E_AdType_ID}</if>	
+			<if test="SYS_DOCUMENTID!=null and SYS_DOCUMENTID!=''">and SYS_DOCUMENTID=#{SYS_DOCUMENTID}</if>
+		</where>
+	</select>
+	<select id="selectAllselectAllWithHash" parameterType="hashmap" resultType="otherAdv">
+		select * from ${table} 
+		 
+		<where>
+			<if test="SYS_DOCUMENTID!=null and SYS_DOCUMENTID!=''">
+				SYS_DOCUMENTID=#{SYS_DOCUMENTID}
+			</if>
+		</where>
+	</select>
+	<select id="selectAllPublication" parameterType="hashmap" resultType="publication">
+		select * from advpublication 
+		<where>
+			<if test="SYS_DOCUMENTID!=null and SYS_DOCUMENTID!=''">
+				SYS_DOCUMENTID=#{SYS_DOCUMENTID}
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectAllEdition" parameterType="hashmap" resultType="edition">
+		select * from advedition 
+		<where>
+			<if test="SYS_DOCUMENTID!=null and SYS_DOCUMENTID!=''">
+				SYS_DOCUMENTID=#{SYS_DOCUMENTID}
+			</if>
+
+		</where>
+	</select>
+</mapper>

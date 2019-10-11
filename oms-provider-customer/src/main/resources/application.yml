@@ -1,0 +1,20 @@
+server:
+  port: 8001
+spring:
+  application:
+    name: oms-provider-customer
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://129.0.99.68:3306/fznews_customer?useSSL=false&useUnicode=true&characterEncoding=utf8
+    username: ltroot
+    password: 9k^tAxi^HT8%h7yB 
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      filter:
+        stat:
+          enabled: false
+mybatis:
+  type-aliases-package:  com.lt.cloud.pojo
+  mapper-locations:
+  - classpath:mapper/*.xml
+ 

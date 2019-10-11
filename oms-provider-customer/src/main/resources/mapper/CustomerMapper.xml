@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+  <!-- 指向UserMapper.xml文件 -->
+  
+<mapper namespace="com.lt.cloud.mapper.CustomerMapper">
+	<select id="selectById" parameterType="long" resultType="customer">
+		select * from customer where SYS_DOCUMENTID=#{SYS_DOCUMENTID}
+	</select>
+	<select id="findByName" parameterType="string" resultType="customer">
+		select * from customer where CUST_NAME=#{CUST_NAME}
+	</select>
+	<select id="find4AutoComplete" parameterType="customerReceiver" resultType="customer">
+		select SYS_DOCUMENTID,CUST_NAME from customer 
+		<where>
+			<if test="CUST_NAME!=null and CUST_NAME!=''">
+				<bind name="pattern" value="'%'+_parameter.CUST_NAME+'%'"/>
+				and (CUST_NAME like #{pattern} or CUST_CODE like #{pattern})
+			</if>
+		</where>
+	</select>
+	<select id="selectAllCustomer" parameterType="hashmap" resultType="customer">
+		select <choose><when test="fields!=null and fields!=''">${fields}</when><otherwise>*</otherwise></choose> from customer 
+		<where>
+			<if test="SYS_DOCUMENTID!=null">SYS_DOCUMENTID=#{SYS_DOCUMENTID}</if>
+			<if test="CUST_NAME!=null and CUST_NAME!=''">
+				<bind name="pattern" value="'%'+_parameter.CUST_NAME+'%'"/>
+				and (CUST_NAME like #{pattern} or CUST_CODE like #{pattern})
+			</if>
+		</where>
+		order by SYS_LASTMODIFIED desc,SYS_CREATED desc
+	</select>
+	<insert id="insertCustomer" parameterType="customer">
+		insert into customer 
+			(SYS_CREATED,SYS_LASTMODIFIED,SYS_AUTHORS,CUST_NAME,CUST_CODE,CUST_USER_ID,
+			 CUST_USER,CUST_TRADEID,CUST_TRADE,CUST_CREDIT,CUST_KEYWORDS,CUST_PHONE)
+		values 
+			(#{SYS_CREATED},#{SYS_LASTMODIFIED},#{SYS_AUTHORS},#{CUST_NAME},#{CUST_CODE},#{CUST_USER_ID},
+			 #{CUST_USER},#{CUST_TRADEID},#{CUST_TRADE},#{CUST_CREDIT},#{CUST_KEYWORDS},#{CUST_PHONE}
+			)
+		
+	</insert>
+	<update id="updateCustomer" parameterType="customer">
+		update customer 
+		<set>
+			<if test="SYS_LASTMODIFIED!=null">SYS_LASTMODIFIED=#{SYS_LASTMODIFIED},</if>
+			<if test="CUST_NAME!=null and CUST_NAME!=''">CUST_NAME=#{CUST_NAME},</if>
+			<if test="CUST_CODE!=null and CUST_CODE!=''">CUST_CODE=#{CUST_CODE},</if>
+			<if test="CUST_USER_ID!=null and CUST_USER_ID!=''">CUST_USER_ID=#{CUST_USER_ID},</if>
+			<if test="CUST_USER!=null and CUST_USER!=''">CUST_USER=#{CUST_USER},</if>
+			<if test="CUST_TRADEID!=null and CUST_TRADEID!=''">CUST_TRADEID=#{CUST_TRADEID},</if>
+			<if test="CUST_TRADE!=null and CUST_TRADE!=''">CUST_TRADE=#{CUST_TRADE},</if>
+			<if test="CUST_CREDIT!=null and CUST_CREDIT!=''">CUST_CREDIT=#{CUST_CREDIT},</if>
+			<if test="CUST_KEYWORDS!=null and CUST_KEYWORDS!=''">CUST_KEYWORDS=#{CUST_KEYWORDS},</if>
+			<if test="CUST_PHONE!=null and CUST_PHONE!=''">CUST_PHONE=#{CUST_PHONE}</if>
+			
+		</set>
+		where SYS_DOCUMENTID=#{SYS_DOCUMENTID}
+	</update>
+</mapper>

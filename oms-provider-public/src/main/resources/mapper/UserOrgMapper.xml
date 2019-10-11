@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+
+  
+<mapper namespace="com.lt.cloud.mapper.UserOrgMapper">
+<select id="findByOrgid" parameterType="int" resultType="userOrg">
+		select id,username from user_org where orgid=#{orgid}
+	</select>
+	<select id="findOrgidsByUserid" parameterType="long" resultType="long">
+		select orgid from user_org where userid=#{userid}
+	</select>
+	<delete id="deleteById" parameterType="int">
+		delete from user_org where id=#{id}
+	</delete>
+	<select id="existsUserByOrgidAndUserid" parameterType="userOrg" resultType="boolean">
+		<![CDATA[select count(id) from user_org where orgid=#{orgid} and userid=#{userid}]]>
+	</select>
+	<insert id="save" parameterType="userOrg" keyProperty="id" useGeneratedKeys="true">
+		insert into user_org(orgid,userid,username) 
+		values (#{orgid},#{userid},#{username})
+	</insert>
+</mapper>

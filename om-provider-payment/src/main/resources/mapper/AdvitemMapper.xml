@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+  <!-- 指向AdvitemMapper.java文件 -->
+  
+<mapper namespace="com.lt.cloud.mapper.AdvitemMapper">
+		<!-- 报表系统 -->
+	 <select id="findAllReports" parameterType="advitemReceiver" resultType="advitem">
+	 	<!--select ${columns} from advitem ${whereby} ${orderby} ${groupby} -->
+	 	select ${columns} from advitem where SYS_DOCUMENTID in (select SYS_DOCUMENTID from advitem ${whereby} ${orderby})  ${groupby}
+	 </select>
+	 <select id="findAllReportsAsHashMap" parameterType="advitemReceiver" resultType="java.util.LinkedHashMap">
+	 	<!--select ${columns} from advitem ${whereby} ${orderby} ${groupby} -->
+	 	select ${columns} from advitem where SYS_DOCUMENTID in (select SYS_DOCUMENTID from advitem ${whereby} ${orderby}) ${groupby}
+	 </select>
+     <select id="findAll" parameterType="advitemReceiver" resultType="advitem">
+		select ${columns} from advitem 
+		<where>
+			<if test="SYS_DOCUMENTID!=null and SYS_DOCUMENTID!=''">SYS_DOCUMENTID=#{SYS_DOCUMENTID}</if>
+			<if test="AI_Salesman!=null and AI_Salesman!=''">and AI_Salesman=#{AI_Salesman}</if>
+			<if test="AI_Customer!=null and AI_Customer!=''">and AI_Customer=#{AI_Customer}</if>
+			<if test="AI_OrderID!=null and AI_OrderID!=''">and AI_OrderID=#{AI_OrderID}</if>
+			<if test="AI_Customer_ID!=null and AI_Customer_ID!=''">and AI_Customer_ID=#{AI_Customer_ID}</if>
+			<if test="AI_PublishTimeStart!=null">and AI_PublishTime &gt;=#{AI_PublishTimeStart}</if>
+			<if test="AI_PublishTimeEnd!=null">and AI_PublishEndTime &lt;=#{AI_PublishTimeEnd}</if>
+			<if test="AI_Trade!=null and AI_Trade!=''">and AI_Trade=#{AI_Trade}</if>
+			<if test="AI_Publication!=null and AI_Publication!=''">and AI_Publication=#{AI_Publication}</if>
+			<if test="AI_Content!=null and AI_Content!=''">and AI_Content=#{AI_Content}</if>
+			<if test="AI_PayMode!=null and AI_PayMode!=''">and AI_PayMode=#{AI_PayMode}</if>
+			<if test="AI_InvoiceNo!=null and AI_InvoiceNo!=''">and AI_InvoiceNo=#{AI_InvoiceNo}</if>
+			<if test="SYS_AUTHORS!=null and SYS_AUTHORS!=''">and SYS_AUTHORS=#{SYS_AUTHORS}</if>
+			and SYS_DELETEFLAG!=1
+		</where>
+		${orderby}
+	</select>
+	<select id="findAllAsHashMap" parameterType="advitemReceiver" resultType="java.util.LinkedHashMap">
+			select ${columns} from advitem 
+			<where>
+				<if test="SYS_DOCUMENTID!=null and SYS_DOCUMENTID!=''">SYS_DOCUMENTID=#{SYS_DOCUMENTID}</if>
+				<if test="AI_Salesman!=null and AI_Salesman!=''">and AI_Salesman=#{AI_Salesman}</if>
+				<if test="AI_Customer!=null and AI_Customer!=''">and AI_Customer like "%"#{AI_Customer}"%"</if>
+				<if test="AI_CustomerLike!=null and AI_CustomerLike!=''">and AI_CustomerLike like "%"#{AI_CustomerLike}"%"</if>
+				<if test="AI_OrderID!=null and AI_OrderID!=''">and AI_OrderID=#{AI_OrderID}</if>
+				<if test="AI_Customer_ID!=null and AI_Customer_ID!=''">and AI_Customer_ID=#{AI_Customer_ID}</if>
+				<if test="AI_PublishTimeStart!=null">and AI_PublishTime &gt;=#{AI_PublishTimeStart}</if>
+				<if test="AI_PublishTimeEnd!=null">and AI_PublishEndTime &lt;=#{AI_PublishTimeEnd}</if>
+				<if test="AI_Trade!=null and AI_Trade!=''">and AI_Trade=#{AI_Trade}</if>
+				<if test="AI_TradeID!=null and AI_TradeID!=''">and AI_TradeID in <foreach collection="AI_TradeID.split(',')" item="id" index="index" open="(" close=")" separator=",">${id}</foreach></if>
+				<if test="AI_Publication!=null and AI_Publication!=''">and AI_Publication=#{AI_Publication}</if>
+				<if test="AI_Content!=null and AI_Content!=''">and AI_Content like "%"#{AI_Content}"%"</if>
+				<if test="AI_PayMode!=null and AI_PayMode!=''">and AI_PayMode=#{AI_PayMode}</if>
+				<if test="AI_InvoiceNo!=null and AI_InvoiceNo!=''">and AI_InvoiceNo=#{AI_InvoiceNo}</if>
+				<if test="SYS_AUTHORS!=null and SYS_AUTHORS!=''">and SYS_AUTHORS=#{SYS_AUTHORS}</if>
+				<if test="AI_Memo!=null and AI_Memo!=''">
+				 and AI_Memo like "%"#{AI_Memo}"%"
+				</if>
+				and SYS_DELETEFLAG!=1
+			</where>
+			 ${orderby}
+   </select>
+   
+</mapper>
